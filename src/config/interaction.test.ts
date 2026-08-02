@@ -104,6 +104,16 @@ describe("3D interaction affordances", () => {
     expect(canExploreRule).toContain('phase === "detail-open"');
   });
 
+  it("keeps manual drag and zoom enabled for reduced-motion users", () => {
+    const cameraRig = fs.readFileSync(
+      path.join(process.cwd(), "src/components/experience/CameraRig.tsx"),
+      "utf8",
+    );
+    const canExploreRule = cameraRig.match(/const canExplore = ([^;]+);/)?.[1] ?? "";
+
+    expect(canExploreRule).not.toContain("reducedMotion");
+  });
+
   it("keeps every navigation destination reachable on short and mobile viewports", () => {
     const css = fs.readFileSync(path.join(process.cwd(), "src/app/globals.css"), "utf8");
     const navigationRule = css.match(/\.site-nav\s*\{([^}]*)\}/)?.[1] ?? "";

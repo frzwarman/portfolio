@@ -59,14 +59,14 @@ export function CameraRig() {
 
   const canExplore = (
     phase === "overview" || phase === "exploring" || phase === "detail-open"
-  ) && !reducedMotion;
+  );
 
   return (
     <OrbitControls
       ref={controls}
       enabled={canExplore}
       enablePan={false}
-      enableDamping
+      enableDamping={!reducedMotion}
       dampingFactor={0.07}
       rotateSpeed={0.42}
       zoomSpeed={0.55}
