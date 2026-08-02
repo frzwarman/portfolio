@@ -57,7 +57,9 @@ export function CameraRig() {
     }
   });
 
-  const canExplore = (phase === "overview" || phase === "exploring") && !reducedMotion;
+  const canExplore = (
+    phase === "overview" || phase === "exploring" || phase === "detail-open"
+  ) && !reducedMotion;
 
   return (
     <OrbitControls

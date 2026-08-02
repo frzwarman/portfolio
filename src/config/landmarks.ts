@@ -23,4 +23,5 @@ export const landmarks: readonly Landmark[] = [
   { id: "project-groceries", label: "03 / GROCERIES", section: "projects", position: [1.54, -1.68, 0.74], asset: "market-stall", color: "#ffb84d", hitRadius: 0.36, projectIndex: 2 },
   { id: "project-company", label: "04 / COMPANY", section: "projects", position: [0.72, -1.24, -1.46], asset: "street-facade", color: "#67e8f9", hitRadius: 0.36, projectIndex: 3 },
   { id: "project-invoeasy", label: "05 / INVOEASY", section: "projects", position: [1.5, -0.84, -0.52], asset: "office-window", color: "#ff4d9d", hitRadius: 0.36, projectIndex: 4 },
+  { id: "project-pokedex", label: "06 / POKÉDEX", section: "projects", position: [0.55, 2.18, 1.28], asset: "rooftop-cat-statue", color: "#ffb84d", hitRadius: 0.42, projectIndex: 5 },
 ] as const;

@@ -73,7 +73,7 @@ export function ExperienceInterface() {
       {active === "projects" && selectedProject === null && (
         <section className="district-panel district-panel--projects" aria-labelledby="projects-title">
           <p className="eyebrow">03 · Project district</p>
-          <h2 id="projects-title">Five builds.<br />Five city stops.</h2>
+          <h2 id="projects-title">Six builds.<br />Six city stops.</h2>
           <div className="district-projects">{projects.map((project, index) => <button type="button" data-project-index={index} key={project.name} onClick={() => open(index)}><span>{String(index + 1).padStart(2, "0")}</span>{project.name}<i aria-hidden="true">↗</i></button>)}</div>
         </section>
       )}

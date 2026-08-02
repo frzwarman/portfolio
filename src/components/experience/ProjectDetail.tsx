@@ -57,7 +57,12 @@ export function ProjectDetail({ projectIndex, onClose }: ProjectDetailProps) {
       <h2 id={`project-detail-${projectIndex}`}>{project.name}</h2>
       <p>{project.description}</p>
       <ul>{project.stack.map((item) => <li key={item}>{item}</li>)}</ul>
-      <a href={project.href} target="_blank" rel="noreferrer" aria-label={`Visit ${project.name}`}>Visit project <span aria-hidden="true">↗</span></a>
+      <div className="landmark-detail__actions">
+        <a href={project.href} target="_blank" rel="noreferrer" aria-label={`Visit ${project.name}`}>Visit project <span aria-hidden="true">↗</span></a>
+        {"repository" in project && (
+          <a href={project.repository} target="_blank" rel="noreferrer" aria-label={`View ${project.name} repository`}>View repository <span aria-hidden="true">↗</span></a>
+        )}
+      </div>
     </div>
   );
 }

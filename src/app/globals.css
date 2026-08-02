@@ -122,7 +122,8 @@ a { text-decoration: none; }
 .landmark-detail__type { color: var(--magenta); font: 600 .6rem ui-monospace, monospace; letter-spacing: .12em; text-transform: uppercase; }
 .landmark-detail ul { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1.4rem 0; padding: 0; list-style: none; }
 .landmark-detail li { padding: .32rem .5rem; color: #cbd0d8; border: 1px solid var(--line); font: .56rem ui-monospace, monospace; text-transform: uppercase; }
-.landmark-detail > a { display: flex; justify-content: space-between; padding: .9rem 0; border-bottom: 1px solid var(--paper); font: 600 .68rem ui-monospace, monospace; letter-spacing: .1em; text-transform: uppercase; }
+.landmark-detail__actions { display: grid; }
+.landmark-detail__actions a { display: flex; justify-content: space-between; padding: .9rem 0; border-bottom: 1px solid var(--paper); font: 600 .68rem ui-monospace, monospace; letter-spacing: .1em; text-transform: uppercase; }
 .project-card__explore { display: flex; justify-content: space-between; width: 100%; margin-bottom: .65rem; padding: .9rem 0; cursor: pointer; color: var(--cyan); border: 0; border-bottom: 1px solid var(--cyan); background: transparent; font-size: .7rem; text-transform: uppercase; letter-spacing: .1em; }
 
 main { position: relative; z-index: 3; }

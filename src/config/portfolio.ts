@@ -80,6 +80,17 @@ export const projects = [
     image: "/assets/images/invoeasy.gif",
     accent: "magenta",
   },
+  {
+    name: "Pokédex",
+    type: "Pokémon discovery experience",
+    description:
+      "A responsive Pokédex for searching, filtering, sorting, and comparing Pokémon, with detailed stats and evolution data.",
+    stack: ["Next.js", "TypeScript", "Tailwind CSS", "Apollo Client", "GraphQL"],
+    href: "https://pensieve-test-two.vercel.app/",
+    repository: "https://github.com/frzwarman/pensieve-test",
+    image: "/assets/images/pokedex.gif",
+    accent: "amber",
+  },
 ] as const;
 
 export const experience = [

@@ -1,4 +1,4 @@
-import { act, render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it } from "vitest";
 import { useExperienceStore } from "@/store/experience";
@@ -59,9 +59,28 @@ describe("portfolio redesign acceptance", () => {
       "E-Groceries",
       "Company Profile",
       "Invoeasy",
+      "Pokédex",
     ]) {
       expect(screen.getByRole("link", { name })).toBeInTheDocument();
     }
+  });
+
+  it("exposes the Pokédex live project and source repository", async () => {
+    const user = userEvent.setup();
+    render(<Services />);
+
+    await user.click(screen.getByRole("button", { name: "Explore Pokédex" }));
+
+    const dialog = screen.getByRole("dialog", { name: "Pokédex" });
+    expect(dialog).toBeInTheDocument();
+    expect(within(dialog).getByRole("link", { name: "Visit Pokédex" })).toHaveAttribute(
+      "href",
+      "https://pensieve-test-two.vercel.app/",
+    );
+    expect(within(dialog).getByRole("link", { name: "View Pokédex repository" })).toHaveAttribute(
+      "href",
+      "https://github.com/frzwarman/pensieve-test",
+    );
   });
 
   it("opens project content as an accessible landmark detail", async () => {

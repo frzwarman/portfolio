@@ -62,7 +62,7 @@ export function ProjectsSection() {
   return (
     <section id="projects" className="story-section story-section--projects" data-section="projects">
       <div className="projects-heading reveal">
-        <p className="eyebrow">03 · Selected work / Five stops</p>
+        <p className="eyebrow">03 · Selected work / Six stops</p>
         <h2>Built to move<br />ideas forward.</h2>
       </div>
       <div className="project-list">
@@ -77,6 +77,7 @@ export function ProjectsSection() {
               <ul>{project.stack.map((item) => <li key={item}>{item}</li>)}</ul>
               <button type="button" className="project-card__explore" onClick={() => openProject(index)} aria-label={`Explore ${project.name}`}>Explore landmark <Arrow /></button>
               <a href={project.href} target="_blank" rel="noreferrer" aria-label={project.name}>Visit project <Arrow /></a>
+              {"repository" in project && <a href={project.repository} target="_blank" rel="noreferrer" aria-label={`View ${project.name} repository`}>View repository <Arrow /></a>}
             </div>
           </article>
         ))}

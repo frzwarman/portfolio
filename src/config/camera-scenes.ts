@@ -98,6 +98,7 @@ const sectionViews: Record<SectionId, ViewDefinition> = {
 const projectFocus = landmarks
   .filter((landmark) => landmark.projectIndex !== undefined)
   .map((landmark) => toWorldFocus(landmark.position));
+const pokedexCatFocus = toWorldFocus([0.45, 1.58, 1.2]);
 
 const projectViews: readonly ViewDefinition[] = [
   { focus: projectFocus[0], positions: { desktop: [-4.6, -1.15, 3.25], tablet: [-5.5, -0.65, 4.25], mobile: [-6.55, -0.05, 5.55] }, fov: { desktop: 36, tablet: 43, mobile: 49 } },
@@ -105,6 +106,7 @@ const projectViews: readonly ViewDefinition[] = [
   { focus: projectFocus[2], positions: { desktop: [4.65, -1.35, 3.8], tablet: [5.55, -0.85, 4.9], mobile: [6.65, -0.2, 6.3] }, fov: { desktop: 36, tablet: 43, mobile: 49 } },
   { focus: projectFocus[3], positions: { desktop: [4.05, -0.9, -4.25], tablet: [5.0, -0.4, -5.3], mobile: [6.15, 0.2, -6.65] }, fov: { desktop: 36, tablet: 43, mobile: 49 } },
   { focus: projectFocus[4], positions: { desktop: [4.6, -0.45, -3.2], tablet: [5.6, 0.05, -4.15], mobile: [6.8, 0.65, -5.45] }, fov: { desktop: 36, tablet: 43, mobile: 49 } },
+  { focus: pokedexCatFocus, positions: { desktop: [4.75, 2.35, 4.9], tablet: [5.65, 2.9, 5.8], mobile: [6.75, 3.55, 7.05] }, fov: { desktop: 35, tablet: 42, mobile: 48 } },
 ];
 
 const scenes = Object.fromEntries(

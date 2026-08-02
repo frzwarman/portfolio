@@ -52,13 +52,47 @@ describe("3D interaction affordances", () => {
     expect(experience?.position[1]).toBeLessThanOrEqual(0.15);
   });
 
-  it("pins every project to a distinct street-level city asset", () => {
+  it("pins the original five projects to distinct street-level city assets", () => {
     const projectLandmarks = landmarks.filter((landmark) => landmark.projectIndex !== undefined);
+    const streetProjects = projectLandmarks.filter((landmark) => (landmark.projectIndex ?? 0) < 5);
     const groceries = projectLandmarks.find((landmark) => landmark.projectIndex === 2);
 
-    expect(new Set(projectLandmarks.map((landmark) => landmark.asset)).size).toBe(5);
-    expect(projectLandmarks.every((landmark) => landmark.position[1] <= 0.55)).toBe(true);
+    expect(new Set(streetProjects.map((landmark) => landmark.asset)).size).toBe(5);
+    expect(streetProjects.every((landmark) => landmark.position[1] <= 0.55)).toBe(true);
     expect(groceries?.asset).toBe("market-stall");
+  });
+
+  it("places Pokédex at the rooftop cat statue with left-side desktop framing", () => {
+    const pokedex = landmarks.find((landmark) => landmark.projectIndex === 5);
+    const contact = landmarks.find((landmark) => landmark.section === "contact");
+
+    expect(pokedex?.asset).toBe("rooftop-cat-statue");
+    expect(pokedex?.label).toBe("06 / POKÉDEX");
+    expect(pokedex?.position[1]).toBeGreaterThan(1);
+    expect(pokedex?.position[0]).toBeGreaterThan(0.2);
+    expect(pokedex?.position[2]).toBeGreaterThan(0.8);
+    expect(
+      Math.hypot(
+        (pokedex?.position[0] ?? 0) - (contact?.position[0] ?? 0),
+        (pokedex?.position[1] ?? 0) - (contact?.position[1] ?? 0),
+        (pokedex?.position[2] ?? 0) - (contact?.position[2] ?? 0),
+      ),
+    ).toBeGreaterThan(0.9);
+
+    const scene = getDestinationCamera("projects", 5, "desktop");
+    const projection = projectFocus(scene, 16 / 9);
+    expect(projection.x).toBeGreaterThan(-0.72);
+    expect(projection.x).toBeLessThan(-0.08);
+  });
+
+  it("keeps drag and wheel exploration enabled while project details are open", () => {
+    const cameraRig = fs.readFileSync(
+      path.join(process.cwd(), "src/components/experience/CameraRig.tsx"),
+      "utf8",
+    );
+    const canExploreRule = cameraRig.match(/const canExplore = ([^;]+);/)?.[1] ?? "";
+
+    expect(canExploreRule).toContain('phase === "detail-open"');
   });
 
   it("frames destination assets in the unobstructed desktop area and above mobile sheets", () => {
