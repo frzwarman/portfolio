@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Muhamad Fariz Warman — Portfolio
 
-## Getting Started
+An accessible, 3D-first portfolio built with Next.js, React Three Fiber, the Three.js Littlest Tokyo model, Drei, Zustand, and semantic HTML. Navigation flies through an explorable city, where interactive landmarks reveal portfolio content.
 
-First, run the development server:
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Quality checks:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm test
+npm run lint
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Architecture
 
-## Learn More
+- `src/components/PortfolioExperience.tsx` composes the fixed 3D layer, loading gate, guided navigation, interactive interface, and semantic fallback.
+- `src/components/experience/` owns the R3F canvas, animated model, camera rig, runtime landmarks, project dialog, navigation director, real asset loader, and static fallback.
+- `src/components/sections/` contains the crawlable fallback portfolio. All content and links remain usable without WebGL.
+- `src/config/portfolio.ts` is the source of truth for projects, roles, skills, contact details, and section IDs.
+- `src/config/landmarks.ts` maps section and project IDs to runtime city markers, project targets, and project camera offsets.
+- `src/config/camera-scenes.ts` stores independent camera position, look-at target, and FOV for desktop, tablet, and mobile destinations.
+- `src/store/experience.ts` synchronizes navigation phase, active section, camera destination, selected project, quality, motion preference, and readiness.
 
-To learn more about Next.js, take a look at the following resources:
+## Extending the experience
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To add a section:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. Add its ID to `sectionIds` in `src/config/portfolio.ts`.
+2. Add desktop/tablet/mobile framing to `src/config/camera-scenes.ts`.
+3. Add a section landmark to `src/config/landmarks.ts` and place it against the city model.
+4. Add its compact panel to `ExperienceInterface.tsx` and its full semantic fallback to `PortfolioSections.tsx`.
+5. Add its navigation link. `NavigationDirector` restores the corresponding destination from URL history.
 
-## Deploy on Vercel
+Projects live in `src/config/portfolio.ts`. Add the corresponding project landmark and model-space position in `src/config/landmarks.ts`; its `projectIndex` must match the project array index. Pointer, touch, menu, hash, and dialog behavior then share that registry.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Camera movement has two stages: `CameraRig.tsx` flies to the configured destination, then enables constrained orbit and zoom controls. Keep section framing in `camera-scenes.ts`; keep project-specific target offsets in `landmarks.ts`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Model replacement
+
+Replace `public/assets/models/LittlestTokyo.glb`, then recalibrate every camera state against the new model’s bounds and scale. If the replacement uses Draco compression, keep decoder files in `public/assets/draco/`; otherwise remove the decoder argument in `TokyoWorld.tsx`.
+
+## Performance and accessibility
+
+The app chooses low/medium/high quality from capability signals and caps DPR at 1/1.5/2. Low quality disables antialiasing and shadows. Animation is reduced when the page is hidden. `prefers-reduced-motion` shortens camera travel and disables free-look motion; navigation also exposes a manual motion control. WebGL failure activates the full semantic fallback with all headings, projects, and contact links. Landmarks are pointer/touch targets, while the menu and accessible DOM dialogs provide keyboard parity.
+
+## Attribution
+
+The 3D layer uses **Littlest Tokyo** by **Glen Fox**, distributed with the official [Three.js animation keyframes example](https://threejs.org/examples/#webgl_animation_keyframes). Three.js, React Three Fiber, and Drei power rendering and guided controls. No assets, branding, or content from the visual inspiration site are copied.
