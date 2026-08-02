@@ -8,6 +8,7 @@ type ExperienceState = {
   scrollProgress: number;
   highlightedProject: number;
   selectedProject: number | null;
+  panelExpanded: boolean;
   started: boolean;
   assetsReady: boolean;
   reducedMotion: boolean;
@@ -17,6 +18,8 @@ type ExperienceState = {
   navigateTo: (section: SectionId) => void;
   openProject: (index: number) => void;
   closeProject: () => void;
+  togglePanel: () => void;
+  setPanelExpanded: (expanded: boolean) => void;
   setInteractionPhase: (phase: ExperienceState["interactionPhase"]) => void;
   setScrollProgress: (progress: number) => void;
   setHighlightedProject: (index: number) => void;
@@ -33,6 +36,7 @@ export const useExperienceStore = create<ExperienceState>((set) => ({
   scrollProgress: 0,
   highlightedProject: 0,
   selectedProject: null,
+  panelExpanded: true,
   started: false,
   assetsReady: false,
   reducedMotion: false,
@@ -43,6 +47,7 @@ export const useExperienceStore = create<ExperienceState>((set) => ({
     set({
       activeSection,
       selectedProject: null,
+      panelExpanded: true,
       interactionPhase: activeSection === "intro" ? "overview" : "travelling",
     }),
   openProject: (selectedProject) =>
@@ -50,9 +55,12 @@ export const useExperienceStore = create<ExperienceState>((set) => ({
       activeSection: "projects",
       highlightedProject: selectedProject,
       selectedProject,
+      panelExpanded: true,
       interactionPhase: "travelling",
     }),
-  closeProject: () => set({ selectedProject: null, interactionPhase: "exploring" }),
+  closeProject: () => set({ selectedProject: null, panelExpanded: true, interactionPhase: "exploring" }),
+  togglePanel: () => set((state) => ({ panelExpanded: !state.panelExpanded })),
+  setPanelExpanded: (panelExpanded) => set({ panelExpanded }),
   setInteractionPhase: (interactionPhase) => set({ interactionPhase }),
   setScrollProgress: (scrollProgress) => set({ scrollProgress }),
   setHighlightedProject: (highlightedProject) => set({ highlightedProject }),

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useExperienceStore } from "@/store/experience";
 
 const links = [
@@ -18,11 +18,23 @@ export default function Navigation() {
   const reducedMotion = useExperienceStore((state) => state.reducedMotion);
   const setReducedMotion = useExperienceStore((state) => state.setReducedMotion);
   const navigateTo = useExperienceStore((state) => state.navigateTo);
+  const panelExpanded = useExperienceStore((state) => state.panelExpanded);
+  const togglePanel = useExperienceStore((state) => state.togglePanel);
   const staticMode = useExperienceStore((state) => state.staticMode);
+  const nav = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    requestAnimationFrame(() => {
+      const activeLink = nav.current?.querySelector<HTMLElement>(`[data-nav-section="${active}"]`);
+      activeLink?.scrollIntoView?.({ block: "nearest" });
+    });
+  }, [active, open]);
 
   const navigate = (href: string) => {
     const section = href.slice(1) as typeof active;
-    navigateTo(section);
+    if (!staticMode && section === active && section !== "intro") togglePanel();
+    else navigateTo(section);
     history.pushState(null, "", href);
     if (staticMode) document.querySelector(href)?.scrollIntoView({
       behavior: reducedMotion ? "auto" : "smooth",
@@ -39,9 +51,16 @@ export default function Navigation() {
       <button className="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
         <span /> <span />
       </button>
-      <nav className={open ? "site-nav site-nav--open" : "site-nav"} aria-label="Primary navigation">
+      <nav ref={nav} className={open ? "site-nav site-nav--open" : "site-nav"} aria-label="Primary navigation">
         {links.map((link, index) => (
-          <a key={link.href} href={link.href} aria-current={active === link.href.slice(1) ? "page" : undefined} onClick={(event) => { event.preventDefault(); navigate(link.href); }}>
+          <a
+            key={link.href}
+            href={link.href}
+            data-nav-section={link.href.slice(1)}
+            aria-current={active === link.href.slice(1) ? "page" : undefined}
+            aria-expanded={active === link.href.slice(1) && active !== "intro" ? panelExpanded : undefined}
+            onClick={(event) => { event.preventDefault(); navigate(link.href); }}
+          >
             <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>{link.label}
           </a>
         ))}

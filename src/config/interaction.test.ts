@@ -38,8 +38,17 @@ describe("3D interaction affordances", () => {
 
         expect(bounds.minDistance).toBeLessThan(distance);
         expect(bounds.maxDistance).toBeGreaterThan(distance);
+        expect(bounds.maxDistance).toBeGreaterThanOrEqual(distance * 3.25);
       }
     }
+  });
+
+  it("lays out project minimize and close controls in one horizontal row", () => {
+    const css = fs.readFileSync(path.join(process.cwd(), "src/app/globals.css"), "utf8");
+    const actionRule = css.match(/\.landmark-detail__window-actions\s*\{([^}]*)\}/)?.[1] ?? "";
+
+    expect(actionRule).toMatch(/display\s*:\s*flex/);
+    expect(actionRule).toMatch(/align-items\s*:\s*center/);
   });
 
   it("distributes section destinations across the city instead of clustering on rooftops", () => {
@@ -93,6 +102,14 @@ describe("3D interaction affordances", () => {
     const canExploreRule = cameraRig.match(/const canExplore = ([^;]+);/)?.[1] ?? "";
 
     expect(canExploreRule).toContain('phase === "detail-open"');
+  });
+
+  it("keeps every navigation destination reachable on short and mobile viewports", () => {
+    const css = fs.readFileSync(path.join(process.cwd(), "src/app/globals.css"), "utf8");
+    const navigationRule = css.match(/\.site-nav\s*\{([^}]*)\}/)?.[1] ?? "";
+
+    expect(navigationRule).toMatch(/height\s*:\s*100dvh/);
+    expect(navigationRule).toMatch(/overflow-y\s*:\s*auto/);
   });
 
   it("frames destination assets in the unobstructed desktop area and above mobile sheets", () => {

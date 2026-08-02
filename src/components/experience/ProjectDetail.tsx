@@ -7,9 +7,10 @@ import { projects } from "@/config/portfolio";
 type ProjectDetailProps = {
   projectIndex: number;
   onClose: () => void;
+  onMinimize?: () => void;
 };
 
-export function ProjectDetail({ projectIndex, onClose }: ProjectDetailProps) {
+export function ProjectDetail({ projectIndex, onClose, onMinimize }: ProjectDetailProps) {
   const dialog = useRef<HTMLDivElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
   const previousFocus = useRef<HTMLElement | null>(null);
@@ -48,7 +49,10 @@ export function ProjectDetail({ projectIndex, onClose }: ProjectDetailProps) {
   return (
     <div ref={dialog} className="landmark-detail" role="dialog" aria-modal="true" aria-labelledby={`project-detail-${projectIndex}`}>
       <div className="landmark-detail__beam" aria-hidden="true" />
-      <button ref={closeButton} className="landmark-detail__close" type="button" onClick={onClose} aria-label={`Close ${project.name}`}>×</button>
+      <div className="landmark-detail__window-actions">
+        {onMinimize && <button className="landmark-detail__close" type="button" onClick={onMinimize} aria-label={`Minimize ${project.name} information`}><span aria-hidden="true">—</span></button>}
+        <button ref={closeButton} className="landmark-detail__close" type="button" onClick={onClose} aria-label={`Close ${project.name}`}>×</button>
+      </div>
       <p className="eyebrow">Project landmark · {String(projectIndex + 1).padStart(2, "0")}</p>
       <div className="landmark-detail__image">
         <Image src={project.image} alt={`${project.name} interface preview`} width={960} height={540} sizes="(max-width: 700px) 92vw, 420px" />

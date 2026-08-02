@@ -141,7 +141,7 @@ export const getOrbitDistanceBounds = ({ position, target }: CameraScene) => {
 
   return {
     minDistance: Math.max(1.5, distance * 0.55),
-    maxDistance: distance * 1.45,
+    maxDistance: distance * 3.5,
   };
 };
 

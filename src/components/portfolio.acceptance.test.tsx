@@ -9,7 +9,7 @@ import { ExperienceInterface } from "./experience/ExperienceInterface";
 
 describe("portfolio redesign acceptance", () => {
   beforeEach(() => {
-    useExperienceStore.setState({ activeSection: "intro", selectedProject: null, interactionPhase: "overview" });
+    useExperienceStore.setState({ activeSection: "intro", selectedProject: null, interactionPhase: "overview", panelExpanded: true });
   });
   it("navigates to semantic homepage sections", async () => {
     const user = userEvent.setup();
@@ -114,7 +114,7 @@ describe("portfolio redesign acceptance", () => {
     );
     expect(screen.getByRole("link", { name: "GitHub" })).toHaveAttribute(
       "href",
-      "https://github.com/farizwrmn",
+      "https://github.com/frzwarman",
     );
     expect(screen.getByRole("link", { name: "LinkedIn" })).toHaveAttribute(
       "href",
@@ -137,5 +137,57 @@ describe("portfolio redesign acceptance", () => {
 
     await waitFor(() => expect(screen.getByRole("button", { name: "01 3D Soda Can" })).toHaveFocus());
     expect(window.location.hash).toBe("#projects");
+  });
+
+  it("toggles the active district panel from its navigation destination", async () => {
+    const user = userEvent.setup();
+    useExperienceStore.setState({ activeSection: "projects", interactionPhase: "exploring", panelExpanded: true });
+    render(<Navbar />);
+
+    await user.click(screen.getByRole("button", { name: "Toggle navigation" }));
+    await user.click(screen.getByRole("link", { name: "Projects" }));
+    expect(useExperienceStore.getState().panelExpanded).toBe(false);
+
+    await user.click(screen.getByRole("button", { name: "Toggle navigation" }));
+    await user.click(screen.getByRole("link", { name: "Projects" }));
+    expect(useExperienceStore.getState().panelExpanded).toBe(true);
+  });
+
+  it("minimizes a district panel to an accessible persistent restore control", async () => {
+    const user = userEvent.setup();
+    useExperienceStore.setState({ activeSection: "projects", interactionPhase: "exploring", panelExpanded: true });
+    render(<ExperienceInterface />);
+
+    await user.click(screen.getByRole("button", { name: "Minimize Project district information" }));
+    expect(screen.queryByRole("heading", { name: /Six builds/i })).not.toBeInTheDocument();
+
+    const restore = screen.getByRole("button", { name: "Expand Project district information" });
+    await user.click(restore);
+    expect(screen.getByRole("heading", { name: /Six builds/i })).toBeInTheDocument();
+  });
+
+  it("groups project minimize and close controls side by side", async () => {
+    const user = userEvent.setup();
+    useExperienceStore.setState({ activeSection: "projects", interactionPhase: "exploring", panelExpanded: true });
+    render(<ExperienceInterface />);
+
+    await user.click(screen.getByRole("button", { name: "01 3D Soda Can" }));
+    const minimize = screen.getByRole("button", { name: "Minimize 3D Soda Can information" });
+    const close = screen.getByRole("button", { name: "Close 3D Soda Can" });
+
+    expect(minimize.parentElement).toBe(close.parentElement);
+    expect(minimize.parentElement).toHaveClass("landmark-detail__window-actions");
+  });
+
+  it("opens a different navigation destination with its panel expanded", async () => {
+    const user = userEvent.setup();
+    useExperienceStore.setState({ activeSection: "projects", interactionPhase: "exploring", panelExpanded: false });
+    render(<Navbar />);
+
+    await user.click(screen.getByRole("button", { name: "Toggle navigation" }));
+    await user.click(screen.getByRole("link", { name: "Skills" }));
+
+    expect(useExperienceStore.getState().activeSection).toBe("skills");
+    expect(useExperienceStore.getState().panelExpanded).toBe(true);
   });
 });

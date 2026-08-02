@@ -76,7 +76,7 @@ export const projects = [
     description:
       "A practical invoicing workspace for creating, tracking, and managing business documents and users.",
     stack: ["Next.js", "Express", "Prisma", "MySQL", "JWT"],
-    href: "https://github.com/farizwrmn/invoeasy",
+    href: "https://github.com/frzwarman/invoeasy",
     image: "/assets/images/invoeasy.gif",
     accent: "magenta",
   },
@@ -116,7 +116,7 @@ export const experience = [
 
 export const contacts = [
   { label: "Email Fariz", value: "Email", href: "mailto:farizwarman@gmail.com" },
-  { label: "GitHub", value: "GitHub", href: "https://github.com/farizwrmn" },
+  { label: "GitHub", value: "GitHub", href: "https://github.com/frzwarman" },
   {
     label: "LinkedIn",
     value: "LinkedIn",
