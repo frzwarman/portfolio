@@ -91,6 +91,17 @@ export const projects = [
     image: "/assets/images/pokedex.gif",
     accent: "amber",
   },
+  {
+    name: "ORBIT AI",
+    type: "AI-powered discovery platform (WIP)",
+    description:
+      "An on-going project to create an intelligent platform for discovering and interacting with 3D assistant, powered by AI-driven recommendations.",
+    stack: ["Vite", "TypeScript", "Tailwind CSS", "Puter.js", "socket.io", "Zustand", "three.js", "gsap"],
+    href: "https://orbit-ai-virid-three.vercel.app/",
+    repository: "https://github.com/frzwarman/orbit-AI",
+    image: "/assets/images/orbit-ai.gif",
+    accent: "cyan",
+  },
 ] as const;
 
 export const experience = [
