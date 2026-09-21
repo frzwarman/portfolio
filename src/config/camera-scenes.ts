@@ -109,6 +109,10 @@ const projectViews: readonly ViewDefinition[] = [
   { focus: projectFocus[4], positions: { desktop: [4.6, -0.45, -3.2], tablet: [5.6, 0.05, -4.15], mobile: [6.8, 0.65, -5.45] }, fov: { desktop: 36, tablet: 43, mobile: 49 } },
   { focus: pokedexCatFocus, positions: { desktop: [4.75, 2.35, 4.9], tablet: [5.65, 2.9, 5.8], mobile: [6.75, 3.55, 7.05] }, fov: { desktop: 35, tablet: 42, mobile: 48 } },
   { focus: orbitAICatFocus, positions: { desktop: [-2.55, 3.18, 2.98], tablet: [-4.55, 1.48, 1.28], mobile: [-1.55, 1.48, 1.28] }, fov: { desktop: 36, tablet: 43, mobile: 49 } },
+  { focus: projectFocus[7], positions: { desktop: [-2.81, 0.6, -5.32], tablet: [-3.28, 1.0, -6.21], mobile: [-3.88, 1.6, -7.36] }, fov: { desktop: 36, tablet: 43, mobile: 49 } },
+  { focus: projectFocus[8], positions: { desktop: [3.56, 0.3, 5.37], tablet: [4.11, 0.7, 6.2], mobile: [4.83, 1.3, 7.28] }, fov: { desktop: 36, tablet: 43, mobile: 49 } },
+  { focus: projectFocus[9], positions: { desktop: [-2.71, -0.5, -5.86], tablet: [-3.13, -0.1, -6.77], mobile: [-3.67, 0.5, -7.95] }, fov: { desktop: 36, tablet: 43, mobile: 49 } },
+  { focus: projectFocus[10], positions: { desktop: [1.51, 1.0, 3.99], tablet: [1.81, 1.4, 4.94], mobile: [2.2, 2.0, 6.17] }, fov: { desktop: 36, tablet: 43, mobile: 49 } },
 ];
 
 const scenes = Object.fromEntries(

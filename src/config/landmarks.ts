@@ -25,4 +25,8 @@ export const landmarks: readonly Landmark[] = [
   { id: "project-invoeasy", label: "05 / INVOEASY", section: "projects", position: [1.5, -0.84, -0.52], asset: "office-window", color: "#ff4d9d", hitRadius: 0.36, projectIndex: 4 },
   { id: "project-pokedex", label: "06 / POKÉDEX", section: "projects", position: [0.55, 2.18, 1.28], asset: "rooftop-cat-statue", color: "#ffb84d", hitRadius: 0.42, projectIndex: 5 },
   { id: "project-orbit-ai", label: "07 / ORBIT AI", section: "projects", position: [-1.55, 1.48, 1.28], asset: "rooftop-overlook", color: "#ffb84d", hitRadius: 0.42, projectIndex: 6 },
+  { id: "project-arus", label: "08 / ARUS", section: "projects", position: [-0.9, 0.9, -1.1], asset: "rooftop-billboard", color: "#ff4d9d", hitRadius: 0.42, projectIndex: 7 },
+  { id: "project-meja", label: "09 / MEJA", section: "projects", position: [1.3, 0.6, 1.3], asset: "corner-cafe", color: "#ffb84d", hitRadius: 0.42, projectIndex: 8 },
+  { id: "project-siteos", label: "10 / SITEOS", section: "projects", position: [-1.1, -0.2, -1.5], asset: "back-alley-office", color: "#67e8f9", hitRadius: 0.42, projectIndex: 9 },
+  { id: "project-pixy", label: "11 / PIXY", section: "projects", position: [0.05, 1.3, -0.4], asset: "rooftop-lightbox", color: "#ff4d9d", hitRadius: 0.42, projectIndex: 10 },
 ] as const;

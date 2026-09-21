@@ -101,6 +101,7 @@ export function ExperienceInterface() {
         <section className="district-panel district-panel--projects" aria-labelledby="projects-title">
           <button className="panel-minimize" type="button" onClick={minimize} aria-label="Minimize Project district information"><span aria-hidden="true">—</span> Minimize</button>
           <p className="eyebrow">03 · Project district</p>
+          <h2 id="projects-title">{projects.length} builds, one city.</h2>
           <div className="district-projects">{projects.map((project, index) => <button type="button" data-project-index={index} key={project.name} onClick={() => open(index)}><span>{String(index + 1).padStart(2, "0")}</span>{project.name}<i aria-hidden="true">↗</i></button>)}</div>
         </section>
       )}

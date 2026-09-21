@@ -159,11 +159,11 @@ describe("portfolio redesign acceptance", () => {
     render(<ExperienceInterface />);
 
     await user.click(screen.getByRole("button", { name: "Minimize Project district information" }));
-    expect(screen.queryByRole("heading", { name: /Six builds/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: /builds, one city/i })).not.toBeInTheDocument();
 
     const restore = screen.getByRole("button", { name: "Expand Project district information" });
     await user.click(restore);
-    expect(screen.getByRole("heading", { name: /Six builds/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /builds, one city/i })).toBeInTheDocument();
   });
 
   it("groups project minimize and close controls side by side", async () => {
