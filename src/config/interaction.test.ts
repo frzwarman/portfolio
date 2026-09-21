@@ -23,22 +23,34 @@ describe("3D interaction affordances", () => {
     }
   });
 
-  it("keeps every guided camera destination inside its zoom range", () => {
+  it("keeps every guided camera destination inside its zoom and polar range", () => {
+    // If a destination violates OrbitControls' limits, the controls push the camera
+    // back every frame while the rig lerps it in, so the trip never "arrives" and the
+    // scene stays locked in the travelling phase.
     const viewports: ViewportKind[] = ["desktop", "tablet", "mobile"];
+    const destinations = [
+      ...sectionIds.map((section) => ({ section, project: null })),
+      ...landmarks
+        .filter((landmark) => landmark.projectIndex !== undefined)
+        .map((landmark) => ({ section: "projects" as const, project: landmark.projectIndex ?? 0 })),
+    ];
 
     for (const viewport of viewports) {
-      for (const section of sectionIds) {
-        const scene = getDestinationCamera(section, null, viewport);
-        const distance = Math.hypot(
-          scene.position[0] - scene.target[0],
-          scene.position[1] - scene.target[1],
-          scene.position[2] - scene.target[2],
-        );
+      for (const destination of destinations) {
+        const scene = getDestinationCamera(destination.section, destination.project, viewport);
+        const dx = scene.position[0] - scene.target[0];
+        const dy = scene.position[1] - scene.target[1];
+        const dz = scene.position[2] - scene.target[2];
+        const distance = Math.hypot(dx, dy, dz);
+        const polarAngle = Math.acos(dy / distance);
         const bounds = getOrbitDistanceBounds(scene);
+        const label = `${destination.section}/${destination.project ?? "-"}@${viewport}`;
 
-        expect(bounds.minDistance).toBeLessThan(distance);
-        expect(bounds.maxDistance).toBeGreaterThan(distance);
-        expect(bounds.maxDistance).toBeGreaterThanOrEqual(distance * 3.25);
+        expect(bounds.minDistance, label).toBeLessThan(distance);
+        expect(bounds.maxDistance, label).toBeGreaterThan(distance);
+        expect(bounds.maxDistance, label).toBeGreaterThanOrEqual(distance * 3.25);
+        expect(polarAngle, label).toBeGreaterThan(Math.PI * 0.2);
+        expect(polarAngle, label).toBeLessThan(Math.PI * 0.48);
       }
     }
   });
