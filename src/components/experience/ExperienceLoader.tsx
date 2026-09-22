@@ -1,7 +1,7 @@
 "use client";
 
 import { useProgress } from "@react-three/drei";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { projects } from "@/config/portfolio";
 import { useExperienceStore } from "@/store/experience";
 
@@ -49,13 +49,16 @@ export function ExperienceLoader({ onRetry }: Props) {
   const ready = measured >= 99.9;
   useEffect(() => setAssetsReady(ready), [ready, setAssetsReady]);
 
-  const enter = (skip = false) => {
-    if (!ready) return;
+  const entering = useRef(false);
+  useEffect(() => {
+    // ponytail: ref guard, not a dep — setLeaving would otherwise re-run this and clear the timer.
+    if (!ready || entering.current || errors.length > 0) return;
+    entering.current = true;
     setLeaving(true);
     const returning = localStorage.getItem("fariz-portfolio-visited") === "1";
     localStorage.setItem("fariz-portfolio-visited", "1");
-    window.setTimeout(() => setStarted(true), skip ? 80 : returning ? 220 : 620);
-  };
+    window.setTimeout(() => setStarted(true), returning ? 220 : 620);
+  }, [ready, errors.length, setStarted]);
 
   if (started) return null;
 
@@ -63,7 +66,7 @@ export function ExperienceLoader({ onRetry }: Props) {
     <div className={`loader ${leaving ? "loader--leaving" : ""}`} role="dialog" aria-modal="true" aria-label="Loading portfolio">
       <div className="loader__mark" aria-hidden="true">FW / 26</div>
       <div className="loader__content">
-        <p className="eyebrow">Tokyo after dark</p>
+        <p className="eyebrow">Fariz&lsquo;s Portfolio</p>
         <p className="loader__number" aria-live="polite">{Math.floor(displayed).toString().padStart(3, "0")}</p>
         <div className="loader__track"><span style={{ width: `${displayed}%` }} /></div>
         {errors.length > 0 ? (
@@ -72,13 +75,8 @@ export function ExperienceLoader({ onRetry }: Props) {
             <button onClick={onRetry}>Retry scene</button>
             <button onClick={() => { setStaticMode(true); setStarted(true); }}>Enter static version</button>
           </div>
-        ) : ready ? (
-          <div className="loader__actions">
-            <button className="start-button" onClick={() => enter(false)}>Start experience <span>↗</span></button>
-            <button className="text-button" onClick={() => enter(true)}>Skip intro</button>
-          </div>
         ) : (
-          <p className="loader__status">Loading city, imagery and type…</p>
+          <p className="loader__status">{ready ? "Entering…" : "Loading city, imagery and type…"}</p>
         )}
       </div>
       <p className="loader__hint">No audio · scroll to travel</p>
