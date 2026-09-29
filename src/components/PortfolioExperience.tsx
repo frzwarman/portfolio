@@ -17,6 +17,7 @@ const ExperienceCanvas = dynamic(() => import("./experience/ExperienceCanvas"), 
 export default function PortfolioExperience() {
   const [checked, setChecked] = useState(false);
   const started = useExperienceStore((state) => state.started);
+  const assetsReady = useExperienceStore((state) => state.assetsReady);
   const staticMode = useExperienceStore((state) => state.staticMode);
   const setStarted = useExperienceStore((state) => state.setStarted);
   const setStaticMode = useExperienceStore((state) => state.setStaticMode);
@@ -24,14 +25,23 @@ export default function PortfolioExperience() {
 
   useEffect(() => {
     setQuality(getQualityTier());
-    if (!supportsWebGL()) setStaticMode(true);
+    if (!supportsWebGL()) {
+      setStaticMode(true);
+      setStarted(true);
+    }
     setChecked(true);
-  }, [setQuality, setStaticMode]);
+  }, [setQuality, setStaticMode, setStarted]);
 
   const useStatic = checked && staticMode;
+  const className = [
+    "portfolio",
+    started && "portfolio--started",
+    assetsReady && "portfolio--ready",
+    useStatic && "portfolio--static",
+  ].filter(Boolean).join(" ");
 
   return (
-    <div className={`${started ? "portfolio portfolio--started" : "portfolio"}${useStatic ? " portfolio--static" : ""}`}>
+    <div className={className}>
       <a className="skip-link" href={useStatic ? "#static-content" : "#main-content"}>Skip to content</a>
       {useStatic ? (
         <StaticBackdrop />
@@ -46,11 +56,6 @@ export default function PortfolioExperience() {
       <PortfolioSections />
       <NavigationDirector />
       {!useStatic && <ExperienceLoader onRetry={() => window.location.reload()} />}
-      {useStatic && !started && (
-        <div className="loader" role="dialog" aria-modal="true" aria-label="Static portfolio">
-          <div className="loader__content"><p className="eyebrow">Accessible city route</p><p className="loader__number">HTML</p><p>Your browser is using the lightweight, fully navigable edition.</p><div className="loader__actions"><button className="start-button" onClick={() => setStarted(true)}>Enter portfolio <span>↗</span></button></div></div>
-        </div>
-      )}
     </div>
   );
 }

@@ -8,16 +8,10 @@ import { ExperienceLoader } from "./ExperienceLoader";
 
 describe("experience loader auto-entry", () => {
   beforeEach(() => {
-    useExperienceStore.setState({ started: false, assetsReady: false });
+    useExperienceStore.setState({ started: false, assetsReady: true });
     Object.defineProperty(window, "localStorage", {
       configurable: true,
       value: { getItem: () => null, setItem: () => {} },
-    });
-    Object.defineProperty(window.Image.prototype, "src", {
-      configurable: true,
-      set(this: HTMLImageElement) {
-        this.onload?.(new Event("load"));
-      },
     });
   });
 

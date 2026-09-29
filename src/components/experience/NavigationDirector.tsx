@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { landmarks } from "@/config/landmarks";
-import { sectionIds, type SectionId } from "@/config/portfolio";
+import { projects, sectionIds, type SectionId } from "@/config/portfolio";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { useExperienceStore } from "@/store/experience";
 
@@ -28,7 +28,7 @@ export function NavigationDirector() {
       const projectNumber = /^project-(\d+)$/.exec(hash);
       const landmarkProject = landmarks.find((item) => item.id === hash)?.projectIndex;
       const index = projectNumber ? Number(projectNumber[1]) - 1 : landmarkProject;
-      if (typeof index === "number" && index >= 0 && index < 5) {
+      if (typeof index === "number" && index >= 0 && index < projects.length) {
         openProject(index);
         return;
       }

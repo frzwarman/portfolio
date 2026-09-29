@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect x="1" y="1" width="62" height="62" rx="14" fill="#050609" stroke="#67e8f9" stroke-width="2"/>
+  <text x="32" y="41" text-anchor="middle" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="26" font-weight="700" fill="#67e8f9">FW</text>
+</svg>

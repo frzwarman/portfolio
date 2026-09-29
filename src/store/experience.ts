@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import type { QualityTier } from "@/config/quality";
-import type { SectionId } from "@/config/portfolio";
+import { projects, type SectionId } from "@/config/portfolio";
 
 type ExperienceState = {
   interactionPhase: "overview" | "travelling" | "exploring" | "detail-open";
@@ -50,14 +50,16 @@ export const useExperienceStore = create<ExperienceState>((set) => ({
       panelExpanded: true,
       interactionPhase: activeSection === "intro" ? "overview" : "travelling",
     }),
-  openProject: (selectedProject) =>
+  openProject: (selectedProject) => {
+    if (!projects[selectedProject]) return;
     set({
       activeSection: "projects",
       highlightedProject: selectedProject,
       selectedProject,
       panelExpanded: true,
       interactionPhase: "travelling",
-    }),
+    });
+  },
   closeProject: () => set({ selectedProject: null, panelExpanded: true, interactionPhase: "exploring" }),
   togglePanel: () => set((state) => ({ panelExpanded: !state.panelExpanded })),
   setPanelExpanded: (panelExpanded) => set({ panelExpanded }),

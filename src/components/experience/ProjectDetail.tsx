@@ -44,13 +44,11 @@ export function ProjectDetail({ projectIndex, onClose, onMinimize }: ProjectDeta
     };
   }, [onClose]);
 
-  if (!project) return null;
-
   return (
     <div ref={dialog} className="landmark-detail" role="dialog" aria-modal="true" aria-labelledby={`project-detail-${projectIndex}`}>
       <div className="landmark-detail__beam" aria-hidden="true" />
       <div className="landmark-detail__window-actions">
-        {onMinimize && <button className="landmark-detail__close" type="button" onClick={onMinimize} aria-label={`Minimize ${project.name} information`}><span aria-hidden="true">—</span></button>}
+        {onMinimize && <button className="landmark-detail__close" type="button" onClick={onMinimize} aria-label={`Minimize ${project.name} information`}><span aria-hidden="true">−</span></button>}
         <button ref={closeButton} className="landmark-detail__close" type="button" onClick={onClose} aria-label={`Close ${project.name}`}>×</button>
       </div>
       <p className="eyebrow">Project landmark · {String(projectIndex + 1).padStart(2, "0")}</p>

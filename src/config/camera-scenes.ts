@@ -95,25 +95,16 @@ const sectionViews: Record<SectionId, ViewDefinition> = {
   },
 };
 
-const projectFocus = landmarks
-  .filter((landmark) => landmark.projectIndex !== undefined)
-  .map((landmark) => toWorldFocus(landmark.position));
-const pokedexCatFocus = toWorldFocus([0.45, 1.58, 1.2]);
-const orbitAICatFocus = toWorldFocus([-1.45, 1.58, 1.2]);
-
-const projectViews: readonly ViewDefinition[] = [
-  { focus: projectFocus[0], positions: { desktop: [-4.6, -1.15, 3.25], tablet: [-5.5, -0.65, 4.25], mobile: [-6.55, -0.05, 5.55] }, fov: { desktop: 36, tablet: 43, mobile: 49 } },
-  { focus: projectFocus[1], positions: { desktop: [-3.45, -1.5, 4.05], tablet: [-4.35, -1.0, 5.05], mobile: [-5.35, -0.35, 6.45] }, fov: { desktop: 36, tablet: 43, mobile: 49 } },
-  { focus: projectFocus[2], positions: { desktop: [4.65, -1.35, 3.8], tablet: [5.55, -0.85, 4.9], mobile: [6.65, -0.2, 6.3] }, fov: { desktop: 36, tablet: 43, mobile: 49 } },
-  { focus: projectFocus[3], positions: { desktop: [4.05, -0.9, -4.25], tablet: [5.0, -0.4, -5.3], mobile: [6.15, 0.2, -6.65] }, fov: { desktop: 36, tablet: 43, mobile: 49 } },
-  { focus: projectFocus[4], positions: { desktop: [4.6, -0.45, -3.2], tablet: [5.6, 0.05, -4.15], mobile: [6.8, 0.65, -5.45] }, fov: { desktop: 36, tablet: 43, mobile: 49 } },
-  { focus: pokedexCatFocus, positions: { desktop: [4.75, 2.35, 4.9], tablet: [5.65, 2.9, 5.8], mobile: [6.75, 3.55, 7.05] }, fov: { desktop: 35, tablet: 42, mobile: 48 } },
-  { focus: orbitAICatFocus, positions: { desktop: [-2.55, 3.18, 2.98], tablet: [-6.59, 1.68, 3.52], mobile: [-7.73, 2.28, 4.13] }, fov: { desktop: 36, tablet: 43, mobile: 49 } },
-  { focus: projectFocus[7], positions: { desktop: [-2.81, 0.6, -5.32], tablet: [-3.28, 1.0, -6.21], mobile: [-3.88, 1.6, -7.36] }, fov: { desktop: 36, tablet: 43, mobile: 49 } },
-  { focus: projectFocus[8], positions: { desktop: [3.56, 0.3, 5.37], tablet: [4.11, 0.7, 6.2], mobile: [4.83, 1.3, 7.28] }, fov: { desktop: 36, tablet: 43, mobile: 49 } },
-  { focus: projectFocus[9], positions: { desktop: [-2.71, -0.5, -5.86], tablet: [-3.13, -0.1, -6.77], mobile: [-3.67, 0.5, -7.95] }, fov: { desktop: 36, tablet: 43, mobile: 49 } },
-  { focus: projectFocus[10], positions: { desktop: [1.51, 1.0, 3.99], tablet: [1.81, 1.4, 4.94], mobile: [2.2, 2.0, 6.17] }, fov: { desktop: 36, tablet: 43, mobile: 49 } },
-];
+// Project camera views live on their landmark, so a beacon and its framing move together.
+const projectViews = new Map<number, ViewDefinition>();
+for (const landmark of landmarks) {
+  if (landmark.projectIndex === undefined || !landmark.view) continue;
+  projectViews.set(landmark.projectIndex, {
+    focus: toWorldFocus(landmark.focus ?? landmark.position),
+    positions: landmark.view,
+    fov: landmark.fov,
+  });
+}
 
 const scenes = Object.fromEntries(
   (["desktop", "tablet", "mobile"] as const).map((viewport) => [
@@ -134,9 +125,10 @@ export const getDestinationCamera = (
   section: SectionId,
   projectIndex: number | null,
   viewport: ViewportKind,
-) => projectIndex === null
-  ? getCameraScene(section, viewport)
-  : framedScene(projectViews[projectIndex] ?? projectViews[0], viewport);
+) => {
+  const view = projectIndex === null ? undefined : projectViews.get(projectIndex);
+  return view ? framedScene(view, viewport) : getCameraScene(section, viewport);
+};
 
 export const getOrbitDistanceBounds = ({ position, target }: CameraScene) => {
   const distance = Math.hypot(

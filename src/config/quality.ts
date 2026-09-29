@@ -1,18 +1,16 @@
-export type QualityTier = "high" | "medium" | "low";
+export type QualityTier = "medium" | "low";
 
 export function getQualityTier(): QualityTier {
   if (typeof window === "undefined") return "medium";
-  const cores = navigator.hardwareConcurrency || 4;
-  const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory || 4;
-  if (cores <= 4 || memory <= 4) return "low";
-  if (cores <= 8 || memory <= 8) return "medium";
-  return "high";
+  // deviceMemory is Chromium-only; an unknown value means "capable", not "4 GB".
+  const cores = navigator.hardwareConcurrency ?? 8;
+  const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 8;
+  return cores <= 4 || memory <= 4 ? "low" : "medium";
 }
 
 export const qualityDpr: Record<QualityTier, [number, number]> = {
   low: [1, 1],
   medium: [1, 1.5],
-  high: [1, 2],
 };
 
 export function supportsWebGL() {

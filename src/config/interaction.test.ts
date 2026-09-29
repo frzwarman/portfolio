@@ -4,7 +4,7 @@ import * as THREE from "three";
 import { describe, expect, it } from "vitest";
 import { getDestinationCamera, getOrbitDistanceBounds, type ViewportKind } from "./camera-scenes";
 import { landmarks } from "./landmarks";
-import { sectionIds } from "./portfolio";
+import { projects, sectionIds } from "./portfolio";
 
 describe("3D interaction affordances", () => {
   it("keeps the canvas vignette from intercepting drag, wheel, and landmark input", () => {
@@ -73,22 +73,32 @@ describe("3D interaction affordances", () => {
     expect(experience?.position[1]).toBeLessThanOrEqual(0.15);
   });
 
-  it("pins the original five projects to distinct street-level city assets", () => {
+  it("gives every project exactly one landmark, with its own asset and camera view", () => {
     const projectLandmarks = landmarks.filter((landmark) => landmark.projectIndex !== undefined);
-    const streetProjects = projectLandmarks.filter((landmark) => (landmark.projectIndex ?? 0) < 5);
-    const groceries = projectLandmarks.find((landmark) => landmark.projectIndex === 2);
 
-    expect(new Set(streetProjects.map((landmark) => landmark.asset)).size).toBe(5);
-    expect(streetProjects.every((landmark) => landmark.position[1] <= 0.55)).toBe(true);
-    expect(groceries?.asset).toBe("market-stall");
+    expect(new Set(projectLandmarks.map((landmark) => landmark.asset)).size).toBe(projectLandmarks.length);
+    expect(projectLandmarks.map((landmark) => landmark.projectIndex)).toEqual(projects.map((_, index) => index));
+    expect(projectLandmarks.every((landmark) => landmark.view !== undefined)).toBe(true);
+  });
+
+  it("scatters project landmarks across the city instead of clustering them", () => {
+    const projectLandmarks = landmarks.filter((landmark) => landmark.projectIndex !== undefined);
+
+    for (const a of projectLandmarks) {
+      for (const b of projectLandmarks) {
+        if (a === b) continue;
+        const distance = Math.hypot(a.position[0] - b.position[0], a.position[1] - b.position[1], a.position[2] - b.position[2]);
+        expect(distance, `${a.id} vs ${b.id}`).toBeGreaterThanOrEqual(1.5);
+      }
+    }
   });
 
   it("places Pokédex at the rooftop cat statue with left-side desktop framing", () => {
-    const pokedex = landmarks.find((landmark) => landmark.projectIndex === 5);
+    const pokedex = landmarks.find((landmark) => landmark.projectIndex === 1);
     const contact = landmarks.find((landmark) => landmark.section === "contact");
 
     expect(pokedex?.asset).toBe("rooftop-cat-statue");
-    expect(pokedex?.label).toBe("06 / POKÉDEX");
+    expect(pokedex?.label).toBe("POKÉDEX");
     expect(pokedex?.position[1]).toBeGreaterThan(1);
     expect(pokedex?.position[0]).toBeGreaterThan(0.2);
     expect(pokedex?.position[2]).toBeGreaterThan(0.8);
@@ -100,7 +110,7 @@ describe("3D interaction affordances", () => {
       ),
     ).toBeGreaterThan(0.9);
 
-    const scene = getDestinationCamera("projects", 5, "desktop");
+    const scene = getDestinationCamera("projects", 1, "desktop");
     const projection = projectFocus(scene, 16 / 9);
     expect(projection.x).toBeGreaterThan(-0.72);
     expect(projection.x).toBeLessThan(-0.08);

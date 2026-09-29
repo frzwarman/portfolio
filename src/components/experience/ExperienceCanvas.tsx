@@ -10,6 +10,8 @@ import { TokyoWorld } from "./TokyoWorld";
 
 export default function ExperienceCanvas() {
   const quality = useExperienceStore((state) => state.quality);
+  const setStaticMode = useExperienceStore((state) => state.setStaticMode);
+  const setStarted = useExperienceStore((state) => state.setStarted);
 
   return (
     <div className="experience-canvas" aria-hidden="true">
@@ -23,16 +25,19 @@ export default function ExperienceCanvas() {
           toneMapping: THREE.ACESFilmicToneMapping,
           outputColorSpace: THREE.SRGBColorSpace,
         }}
+        onCreated={({ gl }) => {
+          // A lost context (mobile tab switch) would leave a frozen black canvas; the static route always works.
+          gl.domElement.addEventListener("webglcontextlost", (event) => {
+            event.preventDefault();
+            setStaticMode(true);
+            setStarted(true);
+          });
+        }}
       >
         <fog attach="fog" args={["#07080d", 8, 24]} />
         <ambientLight intensity={1.6} color="#a6c8ff" />
         <hemisphereLight args={["#52e6ff", "#17051f", 2.2]} />
-        <directionalLight
-          position={[4, 7, 5]}
-          intensity={3.2}
-          color="#ffd7a8"
-          castShadow={quality === "high"}
-        />
+        <directionalLight position={[4, 7, 5]} intensity={3.2} color="#ffd7a8" />
         <pointLight position={[-3, 2, 2]} intensity={8} color="#ff3e9d" />
         <pointLight position={[3, 1, -2]} intensity={6} color="#35ddff" />
         <Suspense fallback={null}>

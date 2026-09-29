@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { useExperienceStore } from "@/store/experience";
 
 const links = [
@@ -31,7 +31,10 @@ export default function Navigation() {
     });
   }, [active, open]);
 
-  const navigate = (href: string) => {
+  const navigate = (href: string) => (event: MouseEvent<HTMLAnchorElement>) => {
+    // Modified clicks keep their browser meaning (open in a new tab); the hash restores the section there.
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
     const section = href.slice(1) as typeof active;
     if (!staticMode && section === active && section !== "intro") togglePanel();
     else navigateTo(section);
@@ -44,8 +47,8 @@ export default function Navigation() {
 
   return (
     <header className="site-header">
-      <a className="brand" href="#intro" onClick={(event) => { event.preventDefault(); navigate("#intro"); }} aria-label="Muhamad Fariz Warman — Home">
-        <span>FW</span><small>Explore / 26</small>
+      <a className="brand" href="#intro" onClick={navigate("#intro")} aria-label="Muhamad Fariz Warman, home">
+        <span>FW</span><small>Portfolio</small>
       </a>
       <p className="section-indicator"><span>{String(links.findIndex((item) => item.href === `#${active}`) + 1).padStart(2, "0")}</span> / {String(links.length).padStart(2, "0")} · {active}</p>
       <button className="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
@@ -59,7 +62,7 @@ export default function Navigation() {
             data-nav-section={link.href.slice(1)}
             aria-current={active === link.href.slice(1) ? "page" : undefined}
             aria-expanded={active === link.href.slice(1) && active !== "intro" ? panelExpanded : undefined}
-            onClick={(event) => { event.preventDefault(); navigate(link.href); }}
+            onClick={navigate(link.href)}
           >
             <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>{link.label}
           </a>

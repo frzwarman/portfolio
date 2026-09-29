@@ -1,7 +1,7 @@
 "use client";
 
 import { Html } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { useRef, useState } from "react";
 import * as THREE from "three";
 import { landmarks, type Landmark } from "@/config/landmarks";
@@ -15,9 +15,13 @@ function LandmarkBeacon({ landmark }: { landmark: Landmark }) {
   const navigateTo = useExperienceStore((state) => state.navigateTo);
   const openProject = useExperienceStore((state) => state.openProject);
   const reducedMotion = useExperienceStore((state) => state.reducedMotion);
+  const width = useThree((state) => state.size.width);
   const active = landmark.projectIndex === undefined
     ? activeSection === landmark.section && selectedProject === null
     : selectedProject === landmark.projectIndex;
+  const label = landmark.projectIndex === undefined
+    ? landmark.label
+    : `${String(landmark.projectIndex + 1).padStart(2, "0")} / ${landmark.label}`;
 
   useFrame((state) => {
     if (!beacon.current) return;
@@ -54,24 +58,22 @@ function LandmarkBeacon({ landmark }: { landmark: Landmark }) {
           <sphereGeometry args={[0.13, 20, 20]} />
           <meshBasicMaterial color={landmark.color} transparent opacity={active ? 0.95 : 0.65} />
         </mesh>
-        <mesh>
+        <mesh visible={false}>
           <sphereGeometry args={[landmark.hitRadius, 12, 12]} />
-          <meshBasicMaterial transparent opacity={0} depthWrite={false} />
         </mesh>
         <mesh rotation-x={-Math.PI / 2}>
           <ringGeometry args={[0.19, 0.24, 32]} />
           <meshBasicMaterial color={landmark.color} transparent opacity={hovered || active ? 0.9 : 0.38} side={THREE.DoubleSide} />
         </mesh>
-        <pointLight color={landmark.color} intensity={hovered || active ? 2.4 : 1.1} distance={1.5} />
       </group>
-      <Html center position={[0, 0.32, 0]} distanceFactor={7} style={{ pointerEvents: "auto" }}>
+      <Html center position={[0, 0.32, 0]} distanceFactor={width < 700 ? 7 : 5} style={{ pointerEvents: "auto" }}>
         <button
           type="button"
           className={active ? "landmark-label landmark-label--active" : "landmark-label"}
           onPointerDown={(event) => event.stopPropagation()}
           onClick={activate}
         >
-          {landmark.label}
+          {label}
         </button>
       </Html>
     </group>

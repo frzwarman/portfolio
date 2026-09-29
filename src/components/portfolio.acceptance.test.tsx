@@ -1,15 +1,15 @@
 import { act, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it } from "vitest";
+import { projects } from "@/config/portfolio";
 import { useExperienceStore } from "@/store/experience";
-import Contact from "./Contact";
-import Navbar from "./Navbar";
-import Services from "./Services";
 import { ExperienceInterface } from "./experience/ExperienceInterface";
+import Navbar from "./navigation/Navigation";
+import { ContactSection as Contact, ProjectsSection as Services } from "./sections/PortfolioSections";
 
 describe("portfolio redesign acceptance", () => {
   beforeEach(() => {
-    useExperienceStore.setState({ activeSection: "intro", selectedProject: null, interactionPhase: "overview", panelExpanded: true });
+    useExperienceStore.setState({ activeSection: "intro", selectedProject: null, interactionPhase: "overview", panelExpanded: true, staticMode: false });
   });
   it("navigates to semantic homepage sections", async () => {
     const user = userEvent.setup();
@@ -50,23 +50,35 @@ describe("portfolio redesign acceptance", () => {
     );
   });
 
-  it("gives every retained project a descriptive link", () => {
+  it("links every retained project to its deployed app", () => {
     render(<Services />);
 
-    for (const name of [
-      "3D Soda Can",
-      "Event Management Platform",
-      "E-Groceries",
-      "Company Profile",
-      "Invoeasy",
-      "Pokédex",
-    ]) {
-      expect(screen.getByRole("link", { name })).toBeInTheDocument();
+    const deployed = {
+      "3D Soda Can": "https://3d-soda-can-gilt.vercel.app/",
+      "Pokédex": "https://pensieve-test-two.vercel.app/",
+      "Arus": "https://arus-finance.farizz-a.workers.dev/",
+      "Meja": "https://possum.farizz-a.workers.dev/",
+      "SiteOS": "https://siteos-studio.farizz-a.workers.dev/",
+      "Pixy": "https://pixys.farizz-a.workers.dev/",
+    };
+    expect(screen.getAllByRole("article")).toHaveLength(Object.keys(deployed).length);
+    for (const [name, href] of Object.entries(deployed)) {
+      expect(screen.getByRole("link", { name })).toHaveAttribute("href", href);
+    }
+  });
+
+  it("keeps a repository link for every project that has one", () => {
+    render(<Services />);
+
+    for (const project of projects) {
+      if (!("repository" in project)) continue;
+      expect(screen.getByRole("link", { name: `View ${project.name} repository` })).toHaveAttribute("href", project.repository);
     }
   });
 
   it("exposes the Pokédex live project and source repository", async () => {
     const user = userEvent.setup();
+    useExperienceStore.setState({ staticMode: true });
     render(<Services />);
 
     await user.click(screen.getByRole("button", { name: "Explore Pokédex" }));
@@ -85,6 +97,7 @@ describe("portfolio redesign acceptance", () => {
 
   it("opens project content as an accessible landmark detail", async () => {
     const user = userEvent.setup();
+    useExperienceStore.setState({ staticMode: true });
     render(<Services />);
 
     const exploreButton = screen.getByRole("button", { name: "Explore 3D Soda Can" });
@@ -95,7 +108,7 @@ describe("portfolio redesign acceptance", () => {
     ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Visit 3D Soda Can" })).toHaveAttribute(
       "href",
-      "http://3d-soda-can-gilt.vercel.app/",
+      "https://3d-soda-can-gilt.vercel.app/",
     );
 
     await user.keyboard("{Escape}");

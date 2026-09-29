@@ -11,14 +11,14 @@ export function IntroSection() {
   return (
     <section id="intro" className="story-section story-section--intro" data-section="intro">
       <div className="intro-copy reveal">
-        <p className="eyebrow">Portfolio · Jakarta / 2026</p>
+        <p className="eyebrow">Portfolio · Jakarta</p>
         <h1>Muhamad<br /><em>Fariz Warman</em></h1>
         <div className="intro-meta">
-          <p>Front-End Developer</p>
-          <p>Building thoughtful interfaces<br />for real-world systems.</p>
+          <p>Front-end engineer at Pensieve.</p>
+          <p>React, Next.js, TypeScript,<br />and the occasional Three.js city.</p>
         </div>
+        <a className="cta" href="#projects">See projects <Arrow /></a>
       </div>
-      <a className="scroll-cue" href="#about"><span>Scroll to enter</span><i aria-hidden="true">↓</i></a>
     </section>
   );
 }
@@ -28,8 +28,8 @@ export function AboutSection() {
     <section id="about" className="story-section story-section--about" data-section="about">
       <div className="panel panel--light reveal">
         <p className="eyebrow">01 · About / Education</p>
-        <h2>Design sense.<br />Systems thinking.</h2>
-        <p className="lede">I’m a front-end developer with an International Relations background and full-stack training from Purwadhika. I build and modernize user-focused products with TypeScript, React, Next.js, and Tailwind CSS—balancing clarity, scalability, and the details people feel.</p>
+        <h2>I build the front end<br />of real systems.</h2>
+        <p className="lede">Front-end engineer at Pensieve, before that sixteen months on retail tooling at K3MART. I came to software from International Relations through Purwadhika’s full-stack program, and I build with TypeScript, React, Next.js, and Tailwind CSS. What I care about: interfaces that stay clear under real data, and the details people feel without noticing.</p>
         <div className="education-grid">
           <article><span>Full-Stack Web Development</span><h3>Purwadhika Digital Technology School</h3><p>Intensive software development program</p></article>
           <article><span>Bachelor’s degree</span><h3>University of Al Azhar Indonesia</h3><p>International Relations</p></article>
@@ -44,7 +44,7 @@ export function SkillsSection() {
     <section id="skills" className="story-section story-section--skills" data-section="skills">
       <div className="panel panel--hud reveal">
         <p className="eyebrow">02 · Systems / Toolkit</p>
-        <h2>Tools that turn<br />intent into interface.</h2>
+        <h2>What I ship with.</h2>
         <ul className="skills-grid">
           {skills.map((skill, index) => <li key={skill}><span>{String(index + 1).padStart(2, "0")}</span>{skill}</li>)}
         </ul>
@@ -57,13 +57,14 @@ export function SkillsSection() {
 export function ProjectsSection() {
   const setHighlightedProject = useExperienceStore((state) => state.setHighlightedProject);
   const selectedProject = useExperienceStore((state) => state.selectedProject);
+  const staticMode = useExperienceStore((state) => state.staticMode);
   const openProject = useExperienceStore((state) => state.openProject);
   const closeProject = useExperienceStore((state) => state.closeProject);
   return (
     <section id="projects" className="story-section story-section--projects" data-section="projects">
       <div className="projects-heading reveal">
-        <p className="eyebrow">03 · Selected work / Six stops</p>
-        <h2>Built to move<br />ideas forward.</h2>
+        <p className="eyebrow">03 · Selected work / {projects.length} stops</p>
+        <h2>{projects.length} builds,<br />one city.</h2>
       </div>
       <div className="project-list">
         {projects.map((project, index) => (
@@ -82,7 +83,7 @@ export function ProjectsSection() {
           </article>
         ))}
       </div>
-      {selectedProject !== null && <ProjectDetail projectIndex={selectedProject} onClose={closeProject} />}
+      {staticMode && selectedProject !== null && <ProjectDetail projectIndex={selectedProject} onClose={closeProject} />}
     </section>
   );
 }
@@ -92,7 +93,7 @@ export function ExperienceSection() {
     <section id="experience" className="story-section story-section--experience" data-section="experience">
       <div className="panel panel--timeline reveal">
         <p className="eyebrow">04 · Experience / Northbound</p>
-        <h2>From shipping features<br />to shaping systems.</h2>
+        <h2>Where I’ve worked.</h2>
         <ol className="timeline">
           {experience.map((item, index) => (
             <li key={item.company}><span className="timeline__dot" /><p>{item.period}</p><div><span>{item.company}</span><h3>{item.role}</h3><p>{item.place}</p></div><b>{String(experience.length - index).padStart(2, "0")}</b></li>
@@ -108,8 +109,8 @@ export function ContactSection() {
     <section id="contact" className="story-section story-section--contact" data-section="contact">
       <div className="contact-panel reveal">
         <p className="eyebrow">05 · Last stop / Contact</p>
-        <h2>Let’s make something<br /><em>clear, useful, memorable.</em></h2>
-        <p>Available for front-end engineering, product interface work, and conversations about ambitious web experiences.</p>
+        <h2>Open to front-end roles<br /><em>and product work.</em></h2>
+        <p>Email is the fastest way to reach me.</p>
         <div className="contact-links">
           {contacts.map((contact, index) => (
             <a key={contact.label} href={contact.href} aria-label={contact.label} target={contact.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
