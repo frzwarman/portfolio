@@ -1,0 +1,462 @@
+/* Reading layer of the city: the same ink, type, and landmark signals,
+   with opaque surfaces and normal document flow. No WebGL on these routes. */
+.case-study {
+  --case-accent: var(--cyan);
+  min-height: 100dvh;
+}
+.case-study--amber {
+  --case-accent: var(--amber);
+}
+.case-study--magenta {
+  --case-accent: var(--magenta);
+}
+.case-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.6rem clamp(1.25rem, 5vw, 5rem);
+  border-bottom: 1px solid var(--line);
+}
+.case-header nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 1.5rem;
+  font-size: .8rem;
+}
+.case-header nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.case-header a:hover, .case-footer a:hover, .case-index a:hover {
+  color: var(--case-accent);
+}
+.case-hero {
+  position: relative;
+  max-width: 1280px;
+  margin: auto;
+  padding: clamp(3rem, 8vw, 7rem) clamp(1.25rem, 5vw, 5rem) 4rem;
+}
+.case-location {
+  color: var(--muted);
+  font: .75rem/1.6 var(--mono);
+}
+.case-concept {
+  margin: 2.5rem 0 1rem;
+  color: var(--case-accent);
+  font-size: .9rem;
+}
+.case-hero h1 {
+  margin: 0;
+  font: clamp(5rem, 13vw, 10rem)/1 var(--font-dirtyline), sans-serif;
+  letter-spacing: -.04em;
+}
+.case-positioning {
+  max-width: 30ch;
+  margin: 1.5rem 0 2rem;
+  font-size: clamp(1.4rem, 3vw, 2.3rem);
+  letter-spacing: -.035em;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+.case-hero__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+}
+.case-hero__links a {
+  display: inline-flex;
+  gap: 2rem;
+  align-items: center;
+  min-height: 44px;
+  padding: .5rem 0;
+  border-bottom: 1px solid var(--case-accent);
+  font-size: .85rem;
+}
+.case-layout {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 760px);
+  justify-content: space-between;
+  gap: clamp(2rem, 5vw, 5rem);
+  max-width: 1280px;
+  margin: auto;
+  padding: 0 clamp(1.25rem, 5vw, 5rem);
+}
+.case-index {
+  position: sticky;
+  top: 2rem;
+  align-self: start;
+  display: grid;
+  border-left: 1px solid var(--case-accent);
+  padding-left: 1rem;
+}
+.case-index a {
+  min-height: 44px;
+  padding: .7rem 0;
+  color: var(--muted);
+  font-size: .8rem;
+  line-height: 1.5;
+}
+.case-section {
+  padding: 3rem 0;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 1.5rem;
+}
+.case-section h2 {
+  margin: 0 0 1.5rem;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 450;
+  line-height: 1.15;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+.case-section h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 550;
+}
+.case-section p, .case-section dd {
+  max-width: 68ch;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+.case-section .case-section-label {
+  margin: 0 0 .9rem;
+  color: var(--case-accent);
+  font-size: .85rem;
+}
+.case-content {
+  min-width: 0;
+}
+.case-study :focus-visible {
+  outline-color: var(--case-accent);
+}
+.case-index a, .case-header a, .case-footer a, .case-hero__links a {
+  transition: color 160ms;
+}
+.case-hero__links a:hover, .case-sources a:hover {
+  color: var(--case-accent);
+}
+.case-section .case-lede {
+  color: var(--paper);
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+}
+.case-facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2.5rem 0;
+}
+.case-facts > div:last-child {
+  grid-column: 1 / -1;
+}
+.case-facts dt {
+  margin-bottom: .4rem;
+  color: var(--case-accent);
+  font-size: .8rem;
+}
+.case-facts dd, .case-constraints dd, .case-decisions dd {
+  margin: 0;
+}
+.case-preview {
+  margin: 2rem 0 0;
+}
+.case-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+}
+.case-preview figcaption {
+  margin-top: .75rem;
+  color: var(--muted);
+  font-size: .75rem;
+}
+.case-constraints {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 2rem;
+  margin: 0;
+}
+.case-constraints > div {
+  padding: 1.2rem 0;
+  border-top: 1px solid var(--line);
+}
+.case-constraints dt {
+  margin-bottom: .6rem;
+  color: var(--case-accent);
+  font-size: .9rem;
+}
+.architecture-flow {
+  margin: 2rem 0 3rem;
+}
+.architecture-flow__hint {
+  font-size: .8rem !important;
+}
+.architecture-flow__steps {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+}
+.architecture-flow__steps > li {
+  position: relative;
+  padding: 0 0 2rem;
+}
+.architecture-flow__steps > li:not(:last-child)::after {
+  position: absolute;
+  content: "";
+  left: 50%;
+  bottom: .3rem;
+  height: 1.35rem;
+  border-left: 1px solid var(--case-accent);
+}
+.architecture-node {
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--case-accent);
+  background: var(--ink-soft);
+}
+.architecture-flow__steps > li.architecture-flow__step--branched::after {
+  content: none;
+}
+.architecture-node summary, .case-failures summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  min-height: 52px;
+  padding: 1rem 1.25rem;
+  font-size: .95rem;
+  cursor: pointer;
+  list-style: none;
+}
+.architecture-node summary::-webkit-details-marker, .case-failures summary::-webkit-details-marker {
+  display: none;
+}
+.architecture-node summary span, .case-failures summary span {
+  color: var(--case-accent);
+  transition: transform 160ms;
+}
+.architecture-node[open] summary span, .case-failures details[open] summary span {
+  transform: rotate(45deg);
+}
+.architecture-node p, .case-failures details p {
+  margin: 0;
+  padding: 0 1.25rem 1.25rem;
+}
+.architecture-branches {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  padding: 1rem 0 0;
+  list-style: none;
+}
+.architecture-branches li {
+  padding: 1rem;
+  border-top: 1px dashed var(--case-accent);
+  background: var(--ink-soft);
+}
+.architecture-branches strong {
+  color: var(--case-accent);
+  font-size: .8rem;
+  font-weight: 500;
+}
+.architecture-branches li.architecture-branch--continues {
+  position: relative;
+}
+.architecture-branch--continues::after {
+  position: absolute;
+  content: "↓";
+  left: calc(50% - .4rem);
+  bottom: -1.8rem;
+  color: var(--case-accent);
+}
+.architecture-branches p {
+  margin: .6rem 0 0;
+  font-size: .85rem;
+}
+.case-section--challenge h2 {
+  color: var(--case-accent);
+}
+.case-sequence {
+  padding-left: 1.4rem;
+}
+.case-sequence li {
+  padding: .7rem 0 .7rem .7rem;
+  font-size: .95rem;
+  line-height: 1.7;
+}
+.case-sequence li::marker {
+  color: var(--case-accent);
+  font: .8rem var(--mono);
+}
+.case-decisions article {
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--line);
+}
+.case-decisions dl {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0 0;
+}
+.case-decisions dl > div {
+  display: grid;
+  grid-template-columns: 5rem minmax(0, 1fr);
+  gap: 1rem;
+}
+.case-decisions dt {
+  padding-top: .25rem;
+  color: var(--case-accent);
+  font-size: .8rem;
+}
+.case-failures details {
+  border-bottom: 1px solid var(--line);
+}
+.case-failures details:first-child {
+  border-top: 1px solid var(--line);
+}
+.case-failures summary {
+  padding-left: 0;
+}
+.case-failures details[open] summary, .architecture-node[open] summary {
+  color: var(--case-accent);
+}
+.architecture-node summary:hover, .case-failures summary:hover {
+  color: var(--case-accent);
+}
+.case-failures details[open] {
+  padding-bottom: .25rem;
+}
+.case-failures details p {
+  padding-left: 0;
+}
+.case-strategies {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.case-strategies li {
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.case-strategies p {
+  margin-bottom: 0;
+}
+.case-boundaries {
+  margin: 2rem 0;
+  border-left: 2px solid var(--case-accent);
+  padding-left: 1.25rem;
+}
+.case-sources summary {
+  min-height: 44px;
+  padding: .8rem 0;
+  cursor: pointer;
+  font-size: .9rem;
+}
+.case-sources ul {
+  padding-left: 1rem;
+}
+.case-sources a {
+  display: inline-block;
+  padding: .6rem 0;
+  color: var(--muted);
+  font-size: .85rem;
+  text-decoration: underline;
+  text-underline-offset: .25rem;
+}
+.case-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+  max-width: 1280px;
+  margin: 3rem auto 0;
+  padding: 2rem clamp(1.25rem, 5vw, 5rem) 3rem;
+  border-top: 1px solid var(--line);
+  font-size: .85rem;
+}
+.case-footer a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: .7rem 0;
+}
+.case-not-found {
+  max-width: 760px;
+  margin: auto;
+  padding: 20vh 1.5rem;
+}
+.case-not-found h1 {
+  font-size: clamp(2rem, 6vw, 4rem);
+  letter-spacing: -.04em;
+}
+.case-not-found p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+.case-not-found a {
+  display: inline-block;
+  padding: 1rem 0;
+  color: var(--cyan);
+  text-decoration: underline;
+}
+@media (max-width: 800px) {
+  .case-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+  .case-index {
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.25rem;
+    padding: .5rem 0;
+    border-left: 0;
+    border-block: 1px solid var(--line);
+  }
+  .case-index a {
+    font-size: .8rem;
+  }
+  .case-hero {
+    padding-bottom: 2rem;
+  }
+  .case-section {
+    padding: 2rem 0;
+  }
+}
+@media (max-width: 480px) {
+  .case-header {
+    align-items: flex-start;
+  }
+  .case-header nav {
+    flex-direction: column;
+    gap: .5rem;
+  }
+  .case-header nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .case-facts, .case-constraints, .architecture-branches {
+    grid-template-columns: 1fr;
+  }
+  .case-decisions dl > div {
+    grid-template-columns: 1fr;
+    gap: .3rem;
+  }
+  .case-hero h1 {
+    overflow-wrap: anywhere;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .architecture-node summary span, .case-failures summary span {
+    transition: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .architecture-node, .case-preview img {
+    border-color: var(--paper);
+  }
+}

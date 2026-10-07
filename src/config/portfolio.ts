@@ -1,3 +1,5 @@
+import type { ProjectSummary } from "./project-types";
+
 // Absolute base for Open Graph, sitemap, and JSON-LD; set NEXT_PUBLIC_SITE_URL on the host.
 export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://portfolio-3d-pi-wine.vercel.app").replace(/\/$/, "");
 
@@ -34,6 +36,7 @@ export const skills = [
 
 export const projects = [
   {
+    slug: "3d-soda-can", landmarkId: "project-soda", caseStudy: false,
     name: "3D Soda Can",
     type: "Immersive product experience",
     description:
@@ -44,6 +47,7 @@ export const projects = [
     accent: "cyan",
   },
   {
+    slug: "pokedex", landmarkId: "project-pokedex", caseStudy: false,
     name: "Pokédex",
     type: "Pokémon discovery experience",
     description:
@@ -55,6 +59,7 @@ export const projects = [
     accent: "amber",
   },
   {
+    slug: "arus", landmarkId: "project-arus", caseStudy: false,
     name: "Arus",
     type: "Private household finance",
     description:
@@ -66,6 +71,8 @@ export const projects = [
     accent: "magenta",
   },
   {
+    slug: "meja", landmarkId: "project-meja", group: "products", priority: 1, featured: true, caseStudy: true,
+    concept: "Offline-first · transactional outbox and ordered synchronization",
     name: "Meja",
     type: "Offline-first restaurant POS",
     description:
@@ -77,6 +84,7 @@ export const projects = [
     accent: "amber",
   },
   {
+    slug: "siteos", landmarkId: "project-siteos", caseStudy: false,
     name: "SiteOS",
     type: "Headless CMS and visual site builder",
     description:
@@ -88,6 +96,7 @@ export const projects = [
     accent: "cyan",
   },
   {
+    slug: "pixy", landmarkId: "project-pixy", caseStudy: false,
     name: "Pixy",
     type: "In-browser photo editor",
     description:
@@ -98,7 +107,7 @@ export const projects = [
     image: "/assets/images/pixy.png",
     accent: "magenta",
   },
-] as const;
+] as const satisfies readonly ProjectSummary[];
 
 export const experience = [
   {

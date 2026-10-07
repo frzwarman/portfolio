@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { contacts, experience, projects, skills } from "@/config/portfolio";
 import { useExperienceStore } from "@/store/experience";
 import { ProjectDetail } from "../experience/ProjectDetail";
@@ -77,6 +78,7 @@ export function ProjectsSection() {
               <p>{project.type}</p><h3>{project.name}</h3><p>{project.description}</p>
               <ul>{project.stack.map((item) => <li key={item}>{item}</li>)}</ul>
               <button type="button" className="project-card__explore" onClick={() => openProject(index)} aria-label={`Explore ${project.name}`}>Explore landmark <Arrow /></button>
+              {project.caseStudy && <Link href={`/projects/${project.slug}`} prefetch={false} aria-label={`Read ${project.name} engineering case study`}>Read engineering story <Arrow /></Link>}
               <a href={project.href} target="_blank" rel="noreferrer" aria-label={project.name}>Visit project <Arrow /></a>
               {"repository" in project && <a href={project.repository} target="_blank" rel="noreferrer" aria-label={`View ${project.name} repository`}>View repository <Arrow /></a>}
             </div>

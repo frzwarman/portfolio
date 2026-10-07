@@ -11,8 +11,8 @@ vi.mock("next/image", () => ({
 }));
 
 vi.mock("next/link", () => ({
-  default: ({ children, href, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) =>
-    React.createElement("a", { href: String(href), ...props }, children),
+  default: ({ children, href, prefetch, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement> & { prefetch?: boolean }) =>
+    React.createElement("a", { href: String(href), "data-prefetch": prefetch === false ? "false" : undefined, ...props }, children),
 }));
 
 vi.mock("@gsap/react", () => ({ useGSAP: vi.fn() }));

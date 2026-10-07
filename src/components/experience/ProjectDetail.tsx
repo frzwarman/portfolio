@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { projects } from "@/config/portfolio";
 
@@ -60,6 +61,11 @@ export function ProjectDetail({ projectIndex, onClose, onMinimize }: ProjectDeta
       <p>{project.description}</p>
       <ul>{project.stack.map((item) => <li key={item}>{item}</li>)}</ul>
       <div className="landmark-detail__actions">
+        {project.caseStudy && (
+          <Link href={`/projects/${project.slug}`} prefetch={false} aria-label={`Read ${project.name} engineering case study`}>
+            Read engineering story <span aria-hidden="true">↗</span>
+          </Link>
+        )}
         <a href={project.href} target="_blank" rel="noreferrer" aria-label={`Visit ${project.name}`}>Visit project <span aria-hidden="true">↗</span></a>
         {"repository" in project && (
           <a href={project.repository} target="_blank" rel="noreferrer" aria-label={`View ${project.name} repository`}>View repository <span aria-hidden="true">↗</span></a>
